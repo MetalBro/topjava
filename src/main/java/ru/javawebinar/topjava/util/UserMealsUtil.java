@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.model.UserMealWithExceed;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,12 +26,9 @@ public class UserMealsUtil {
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 31,20,0), "Ужин", 510)
         );
         getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12,0), 2000);
-//        .toLocalDate();
-//        .toLocalTime();
     }
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        // TODO return filtered list with correctly exceeded field
         return mealList.stream()
                 .filter(x -> TimeUtil.isBetween(x.getDateTime().toLocalTime(), startTime, endTime))
                 .map(temp -> {
@@ -38,5 +36,17 @@ public class UserMealsUtil {
                     boolean exceed = temp.getCalories() > caloriesPerDay;
                     return new UserMealWithExceed(localDateTime, temp.getDescription(), temp.getCalories(), exceed);
                 }).collect(Collectors.toList());
+    }
+
+    public static List<UserMealWithExceed>  getFilteredWithExceeded_2(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        List<UserMealWithExceed> list = new ArrayList<>();
+        for (UserMeal userMeal : mealList){
+            LocalTime localTime = userMeal.getDateTime().toLocalTime();
+            if (TimeUtil.isBetween(localTime, startTime, endTime)){
+                boolean exceed = userMeal.getCalories() > caloriesPerDay;
+                list.add(new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), exceed));
+            }
+        }
+        return list;
     }
 }

@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -30,7 +31,12 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO return filtered list with correctly exceeded field
-        System.out.println("Test Brach Commit");
-        return null;
+        return mealList.stream()
+                .filter(x -> TimeUtil.isBetween(x.getDateTime().toLocalTime(), startTime, endTime))
+                .map(temp -> {
+                    LocalDateTime localDateTime = temp.getDateTime();
+                    boolean exceed = temp.getCalories() > caloriesPerDay;
+                    return new UserMealWithExceed(localDateTime, temp.getDescription(), temp.getCalories(), exceed);
+                }).collect(Collectors.toList());
     }
 }

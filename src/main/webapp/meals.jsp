@@ -35,17 +35,20 @@
 <table border="1px" align="center">
     <thead style="background:#00BFFF">
     <tr>
-        <th>dateTime</th><th>Description</th><th>Calories</th><th>Exceed</th>
+        <th>id</th><th>dateTime</th><th>Description</th><th>Calories</th><th>Exceed</th><th colspan="3"></th>
     </tr>
     </thead>
 
     <c:forEach var="mealItem" items="${mealWithExceededList}">
         <tr bgcolor="${mealItem.exceed == false ? "white" : "red"}">
+            <td>${mealItem.id}</td>
             <td>${mealItem.dateTime.format(dateTimeFormatter)}</td>
             <td>${mealItem.description}</td>
             <td>${mealItem.calories}</td>
             <td>${mealItem.exceed}</td>
-
+            <td><a href="/addMeal.jsp">Add</a></td>
+            <td><a href="/editMeal.jsp?editMealId=${mealItem.id}">Edit</a></td>
+            <td><a href="/deleteMeal.do?action=delete&deleteMealId=${mealItem.id}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>

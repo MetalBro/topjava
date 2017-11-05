@@ -42,4 +42,48 @@ public class MealServlet extends HttpServlet {
 
         req.getRequestDispatcher("/meals.jsp").forward(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.debug("redirect to meals");
+
+        req.setCharacterEncoding("UTF-8");
+
+        String action = req.getParameter("action");
+        if (action.equals("add")){
+            LocalDateTime localDateTime = LocalDateTime.parse(req.getParameter("dateTime"));
+            String description = req.getParameter("description");
+            int calories = Integer.parseInt(req.getParameter("calories"));
+            Meal meal = new Meal(localDateTime, description, calories);
+            MealsUtil.getMeals().add(meal);
+        } else if (action.equals("edit")){
+            List<Meal> meals = MealsUtil.getMeals();
+            int id = Integer.parseInt(req.getParameter("id"));
+            int i = 0;
+            while (true){
+                Meal meal = meals.get(i);
+                if (meal.getId() == id) break;
+                i++;
+            }
+            LocalDateTime localDateTime = LocalDateTime.parse(req.getParameter("dateTime"));
+            String description = req.getParameter("description");
+            int calories = Integer.parseInt(req.getParameter("calories"));
+            Meal meal = meals.get(i);
+            meal.setDateTime(localDateTime);
+            meal.setDescription(description);
+            meal.setCalories(calories);
+            meals.set(i, meal);
+        } else if (action.equals("delete")){
+            List<Meal> meals = MealsUtil.getMeals();
+            int id = Integer.parseInt(req.getParameter("deleteMealId"));
+            int i = 0;
+            while (true){
+                Meal meal = meals.get(i);
+                if (meal.getId() == id) break;
+                i++;
+            }
+            meals.remove(i);
+        }
+        req.getRequestDispatcher("/index.html").forward(req, resp);
+    }
 }

@@ -48,10 +48,10 @@ public class MealServlet extends HttpServlet {
         log.debug("redirect to meals");
 
         req.setCharacterEncoding("UTF-8");
-
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         String action = req.getParameter("action");
         if (action.equals("add")){
-            LocalDateTime localDateTime = LocalDateTime.parse(req.getParameter("dateTime"));
+            LocalDateTime localDateTime = LocalDateTime.parse(req.getParameter("dateTime"), dateTimeFormatter);
             String description = req.getParameter("description");
             int calories = Integer.parseInt(req.getParameter("calories"));
             Meal meal = new Meal(localDateTime, description, calories);
@@ -83,6 +83,10 @@ public class MealServlet extends HttpServlet {
                 i++;
             }
             meals.remove(i);
+        } else if (action.equals("preEdit")){
+            int id = Integer.parseInt(req.getParameter("editMealId"));
+            req.setAttribute("editMealId", id);
+            req.getRequestDispatcher("/editMeal.jsp").forward(req, resp);
         }
         req.getRequestDispatcher("/index.html").forward(req, resp);
     }

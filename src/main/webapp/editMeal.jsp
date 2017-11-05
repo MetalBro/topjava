@@ -6,21 +6,23 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*" %>
+
 <html>
 <head>
     <title>Edit Meal</title>
 </head>
 <body>
-<form method="POST" action="editMeal.do?action=edit&id=${editMealId}" acceptCharset="UTF-8">
+<form method="POST" action="editMealdo?action=edit&id=${editMealId}" acceptCharset="UTF-8">
     <table>
         <tr>
             <td><label>Id еды в базе:</label></td>
-            <td>${editMealId}/td>
+            <td>${editMealId}</td>
         </tr>
 
         <tr>
             <td><label>Новая дата:</label></td>
-            <td><input type="datetime" maxlength="100" name="dateTime"/></td>
+            <td><input type="datetime-local" pattern="yyyy-MM-dd'T'hh:mm:ss" name="dateTime"/></td>
         </tr>
         <tr>
             <td><label>Новое описание:</label></td>

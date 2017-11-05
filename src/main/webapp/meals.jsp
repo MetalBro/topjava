@@ -26,6 +26,30 @@
             background-color: #00BFFF;
             color: white;
         }
+
+        input[type=submit] {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+            /*background-color: #4CAF50;*/
+            background-color: white;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            /*background-color: #3e8e41;*/
+            background-color: gray;
+        }
+
+        input[type=submit]:active {
+            /*background-color: #3e8e41;*/
+            background-color: gray;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
     </style>
 </head>
 <body>
@@ -46,9 +70,10 @@
             <td>${mealItem.description}</td>
             <td>${mealItem.calories}</td>
             <td>${mealItem.exceed}</td>
-            <td><a href="/addMeal.jsp">Add</a></td>
-            <td><a href="/editMeal.jsp?editMealId=${mealItem.id}">Edit</a></td>
-            <td><a href="/deleteMeal.do?action=delete&deleteMealId=${mealItem.id}">Delete</a></td>
+            <%--<td><a href="addMeal.jsp">Add</a></td>--%>
+            <td><form method="GET" action="addMeal.jsp"><input type="submit" value="Add" align=""/></form></td>
+            <td><form method="POST" action="editMeal?action=preEdit&editMealId=${mealItem.id}"><input type="submit" value="Edit"/></form></td>
+            <td><form method="POST" action="deleteMealdo?action=delete&deleteMealId=${mealItem.id}"><input type="submit" value="Delete"/></form></td>
         </tr>
     </c:forEach>
 </table>

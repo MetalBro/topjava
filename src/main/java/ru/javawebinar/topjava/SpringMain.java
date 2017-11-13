@@ -27,10 +27,11 @@ public class SpringMain {
             System.out.println();
             MealRestController mealRestController = appCtx.getBean(MealRestController.class);
             mealRestController.setService(new MealServiceImpl(new InMemoryMealRepositoryImpl()));
-            List<MealWithExceed> mealWithExceedsId4 = mealRestController.convertFromMeal(mealRestController.getByUserID(4));
-            List<MealWithExceed> mealWithExceedsId3 = mealRestController.convertFromMeal(mealRestController.getByUserID(3));
-            List<MealWithExceed> mealWithExceedsId5 = mealRestController.convertFromMeal(mealRestController.getByUserID(5));
-            List<MealWithExceed> all = mealRestController.convertFromMeal(new ArrayList<>(mealRestController.getAll()));
+            List<MealWithExceed> mealWithExceedsId4 = mealRestController.convertToWithExceeded(mealRestController.getByUserID(4));
+            List<MealWithExceed> mealWithExceedsId3 = mealRestController.convertToWithExceeded(mealRestController.getByUserID(3));
+            List<MealWithExceed> mealWithExceedsId5 = mealRestController.convertToWithExceeded(mealRestController.getByUserID(5));
+            List<MealWithExceed> all = mealRestController.convertToWithExceeded(new ArrayList<>(mealRestController.getAll()));
+            List<Meal> allMeals = new ArrayList<>(mealRestController.getAll());
             mealWithExceedsId4.forEach(meal -> System.out.println(meal));
             System.out.println();
             mealWithExceedsId3.forEach(meal -> System.out.println(meal));
@@ -38,6 +39,7 @@ public class SpringMain {
             mealWithExceedsId5.forEach(meal -> System.out.println(meal));
             System.out.println();
             all.forEach(meal -> System.out.println(meal));
+            allMeals.forEach(meal -> System.out.println(meal));
         }
     }
 }

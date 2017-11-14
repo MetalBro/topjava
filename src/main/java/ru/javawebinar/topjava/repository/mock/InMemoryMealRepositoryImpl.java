@@ -24,11 +24,12 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        MealsUtil.MEALS.forEach(this::save);
+        MealsUtil.MEALS.forEach(meal -> save(meal, (int) (Math.random()*5)));  // вызов методов сохранения с рандомными userId
     }
 
     @Override
-    public Meal save(Meal meal) {
+    public Meal save(Meal meal, int userId) {
+        if (meal.getUserId() != userId) return null;
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
         }
@@ -56,11 +57,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getByUserID(int userId) {
-        List<Meal> mealList = getAll().stream()
-                .filter(meal -> meal.getUserId().equals(userId))
-                .collect(Collectors.toList());
+        List<Meal> mealList = getFilteredByUserId(userId);
         mealList.sort((Meal m1, Meal m2) -> (m2.getDateTime().compareTo(m1.getDateTime())));
-        return mealList;    }
+        return mealList;
+    }
 
     @Override
     public List<Meal> getByUserIDandTime(int userId, LocalDate localDateStart, LocalDate localDateEnd, LocalTime localTimeStart, LocalTime localTimeEnd) { // доп. метод с оценкой по дате
@@ -68,13 +68,17 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
         LocalDateTime localDateTimeStart = LocalDateTime.of(localDateStart, localTimeStart); // версия без проверки на null
         LocalDateTime localDateTimeEnd = LocalDateTime.of(localDateEnd, localTimeEnd);
 
-        List<Meal> mealList = getAll().stream()
-                .filter(meal -> meal.getUserId().equals(userId))
+        List<Meal> mealList = getFilteredByUserId(userId).stream()
                 .filter(meal -> DateTimeUtil.isBetweenDate(meal.getDateTime(), localDateTimeStart, localDateTimeEnd))
                 .collect(Collectors.toList());
         mealList.sort((Meal m1, Meal m2) -> (m2.getDateTime().compareTo(m1.getDateTime())));
         return mealList;
     }
 
+    private List<Meal> getFilteredByUserId(int userId) {
+        return repository.values().stream()
+                .filter(meal -> meal.getUserId().equals(userId))
+                .collect(Collectors.toList());
+    }
 
 }

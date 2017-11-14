@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface MealService {
 
-    Meal create(Meal meal);
+    Meal create(Meal meal, int userId);
 
-    void update(Meal meal);
+    void update(Meal meal, int userId);
 
 //    // false if not found or wrong user
 //    boolean delete(int id, int userID);

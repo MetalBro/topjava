@@ -33,14 +33,17 @@ public class MealRestController {
 
     public Meal create(Meal meal) {
         log.info("create {}", meal);
+        int userId = AuthorizedUser.id();
         ValidationUtil.checkNew(meal);
-        return service.create(meal);
+        return service.create(meal, userId);
     }
 
     public void update(Meal meal, int id) {
         log.info("update {} with id={}", meal, id);
+        int userId = AuthorizedUser.id();
+        if (meal.getUserId() != userId) return;
         assureIdConsistent(meal, id);
-        service.update(meal);
+        service.update(meal, userId);
     }
 
 //    public void delete(int id, int userID) throws NotFoundException {

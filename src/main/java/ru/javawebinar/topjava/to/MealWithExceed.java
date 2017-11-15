@@ -28,6 +28,10 @@ public class MealWithExceed {
         return id;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }

@@ -32,6 +32,28 @@
             <th></th>
         </tr>
         </thead>
+        <section>
+        <p>Укажите время для выборки</p>
+        <form method="post" action="meals?action=filterdate">
+            <dl>
+                <dt>DateStart:</dt>
+                <dd><input type="date" name="dateStart"></dd>
+            </dl>
+            <dl>
+                <dt>DateEnd:</dt>
+                <dd><input type="date" name="dateEnd"></dd>
+            </dl>
+            <dl>
+                <dt>TimeStart:</dt>
+                <dd><input type="time" name="timeStart"></dd>
+            </dl>
+            <dl>
+                <dt>TimeEnd:</dt>
+                <dd><input type="time" name="timeEnd"></dd>
+            </dl>
+            <button type="submit">Save</button>
+        </form>
+        </section>
         <c:forEach items="${meals}" var="meal">
             <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
             <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
@@ -43,6 +65,7 @@
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
+                <td>${meal.userId}</td>
                 <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
                 <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
             </tr>

@@ -73,7 +73,7 @@ public class MealRestController {
     }
 
 //    List<Meal> getByUserIDandTime(int userId, LocalDate localDateStart, LocalDate localDateEnd, LocalTime localTimeStart, LocalTime localTimeEnd){
-    List<Meal> getByUserIDandTime(LocalDate localDateStart, LocalDate localDateEnd, LocalTime localTimeStart, LocalTime localTimeEnd){
+    public List<Meal> getByUserIDandTime(LocalDate localDateStart, LocalDate localDateEnd, LocalTime localTimeStart, LocalTime localTimeEnd){
         int userId = AuthorizedUser.id();
         log.info("get mealList by userID={} and date from {} to {}, time from {} to {}", userId, localDateStart, localDateEnd, localTimeStart, localTimeEnd);
         return service.getByUserIDandTime(userId, localDateStart, localDateEnd, localTimeStart, localTimeEnd);

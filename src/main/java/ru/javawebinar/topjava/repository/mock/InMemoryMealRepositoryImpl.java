@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
@@ -24,12 +25,13 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        MealsUtil.MEALS.forEach(meal -> save(meal, (int) (Math.random()*5)));  // вызов методов сохранения с рандомными userId
+        MealsUtil.MEALS.forEach(meal -> save(meal, (int) (Math.random()*2) + 1));  // вызов методов сохранения с рандомными userId
     }
 
     @Override
     public Meal save(Meal meal, int userId) {
-        if (meal.getUserId() != userId) return null;
+//        if (meal.getUserId() != userId) return null;
+        if (meal.getUserId() == null) meal.setUserId(userId);
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
         }

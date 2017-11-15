@@ -65,5 +65,4 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
         }
         return userToFindByEmail;
     }
-
 }

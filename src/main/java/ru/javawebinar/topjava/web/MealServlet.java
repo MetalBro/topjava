@@ -49,8 +49,8 @@ public class MealServlet extends HttpServlet {
         String action = request.getParameter("action");
         switch (action == null ? "crud" : action) {
             case "filterdate" :
-                LocalDate dateStart = !request.getParameter("dateStart").isEmpty() ? LocalDate.parse(request.getParameter("dateStart")) : LocalDate.MIN;
-                LocalDate dateEnd = !request.getParameter("dateEnd").isEmpty() ? LocalDate.parse(request.getParameter("dateEnd")) : LocalDate.MAX;
+                LocalDate dateStart = !request.getParameter("dateStart").isEmpty() ? LocalDate.parse(request.getParameter("dateStart")) : null;
+                LocalDate dateEnd = !request.getParameter("dateEnd").isEmpty() ? LocalDate.parse(request.getParameter("dateEnd")) : null;
                 LocalTime timeStart = !request.getParameter("timeStart").isEmpty() ? LocalTime.parse(request.getParameter("timeStart")) : LocalTime.MIN;
                 LocalTime timeEnd = !request.getParameter("timeEnd").isEmpty() ? LocalTime.parse(request.getParameter("timeEnd")) : LocalTime.MAX;
                 log.info("getFilteredByDate");
@@ -62,7 +62,8 @@ public class MealServlet extends HttpServlet {
             case "crud":
             default:
                 String id = request.getParameter("id");
-                Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
+                String userId = request.getParameter("userId");
+                Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id), Integer.valueOf(userId),
                         LocalDateTime.parse(request.getParameter("dateTime")),
                         request.getParameter("description"),
                         Integer.valueOf(request.getParameter("calories")));
@@ -92,7 +93,7 @@ public class MealServlet extends HttpServlet {
             case "create":
             case "update":
                 final Meal meal = "create".equals(action) ?
-                        new Meal(AuthorizedUser.id(), LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
+                        new Meal(null, AuthorizedUser.id(), LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
 //                        repository.get(getId(request), getUserId(request));
                         mealRestController.get(getId(request));
 //                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :

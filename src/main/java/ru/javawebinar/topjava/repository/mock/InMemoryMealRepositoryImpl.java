@@ -67,11 +67,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     @Override
     public List<Meal> getByUserIDandTime(int userId, LocalDate localDateStart, LocalDate localDateEnd, LocalTime localTimeStart, LocalTime localTimeEnd) { // доп. метод с оценкой по дате
 
-        LocalDateTime localDateTimeStart = LocalDateTime.of(localDateStart, localTimeStart); // версия без проверки на null
-        LocalDateTime localDateTimeEnd = LocalDateTime.of(localDateEnd, localTimeEnd);
+        boolean checkNull = localDateStart == null || localDateEnd == null;
 
         List<Meal> mealList = getFilteredByUserId(userId).stream()
-                .filter(meal -> DateTimeUtil.isBetweenDate(meal.getDateTime(), localDateTimeStart, localDateTimeEnd))
+                .filter(meal -> !checkNull ? DateTimeUtil.isBetweenDate(meal.getDateTime(), LocalDateTime.of(localDateStart, localTimeStart), LocalDateTime.of(localDateEnd, localTimeEnd)) : DateTimeUtil.isBetweenTime(meal.getTime(), localTimeStart, localTimeEnd))
                 .collect(Collectors.toList());
         mealList.sort((Meal m1, Meal m2) -> (m2.getDateTime().compareTo(m1.getDateTime())));
         return mealList;

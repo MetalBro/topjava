@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS users;
-DROP SEQUENCE IF EXISTS global_seq;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS meals CASCADE;
+DROP TABLE IF EXISTS user_meals;
+DROP SEQUENCE IF EXISTS global_seq CASCADE;
 
 CREATE SEQUENCE global_seq START 100000;
 
@@ -22,4 +24,20 @@ CREATE TABLE user_roles
   role    VARCHAR,
   CONSTRAINT user_roles_idx UNIQUE (user_id, role),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE meals
+(
+  id              SMALLSERIAL PRIMARY KEY,
+  dateTime        TIMESTAMP               NOT NULL,
+  description     VARCHAR                 NOT NULL,
+  calories        INTEGER                 NOT NULL
+);
+
+CREATE TABLE user_meals
+(
+  user_id INTEGER NOT NULL,
+  meal_id INTEGER NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (meal_id) REFERENCES meals(id) ON DELETE CASCADE
 );

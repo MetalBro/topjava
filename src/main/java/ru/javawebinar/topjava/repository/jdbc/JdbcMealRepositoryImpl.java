@@ -60,16 +60,15 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Override
     public boolean delete(int id, int userId) {
         return jdbcTemplate.update("DELETE FROM meals " +
-                "WHERE meals.id=? " +
-                "AND meals.user_id=?", id, userId) != 0;
+                "WHERE id=? " +
+                "AND user_id=?", id, userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        List<Meal> meals = jdbcTemplate.query("SELECT meals.id, meals.datetime, meals.description, meals.calories " +
+        List<Meal> meals = jdbcTemplate.query("SELECT * " +
                 "FROM meals " +
-                "INNER JOIN users ON meals.user_id = users.id " +
-                "WHERE meals.id=? AND users.id=?", ROW_MAPPER, id, userId);
+                "WHERE id=? AND user_id=?", ROW_MAPPER, id, userId);
         return DataAccessUtils.singleResult(meals);
     }
 
@@ -77,8 +76,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     public List<Meal> getAll(int userId) {
         return jdbcTemplate.query("SELECT meals.id, meals.datetime, meals.description, meals.calories " +
                 "FROM meals " +
-                "INNER JOIN users ON meals.user_id = users.id " +
-                "WHERE meals.user_id=? " +
+                "WHERE user_id=? " +
                 "ORDER BY datetime DESC", ROW_MAPPER, userId);
     }
 
@@ -86,9 +84,8 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return jdbcTemplate.query("SELECT meals.id, meals.datetime, meals.description, meals.calories " +
                 "FROM meals " +
-                "INNER JOIN users ON users.id = meals.user_id " +
-                "WHERE meals.user_id=? " +
-                "AND meals.datetime>=? " +
-                "AND meals.datetime<?" +
+                "WHERE user_id=? " +
+                "AND datetime>=? " +
+                "AND datetime<?" +
                 "ORDER BY datetime DESC", ROW_MAPPER, userId, startDate, endDate);    }
 }

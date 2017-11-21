@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -51,8 +52,8 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             meal.setId(mealId);
         } else {
             namedParameterJdbcTemplate.update(
-                    "UPDATE meals SET datetime=:datetime, description=:description, calories=:calories, user_id=:user_id " +
-                            "WHERE id=:id", map);
+                    "UPDATE meals SET datetime=:datetime, description=:description, calories=:calories " +
+                            "WHERE id=:id AND user_id=:user_id", map);
         }
         return meal;
     }

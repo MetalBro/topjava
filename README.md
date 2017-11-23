@@ -1,5 +1,5 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f53c103463cd4feb801613985d17286b)](https://www.codacy.com/app/MetalBro/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MetalBro/topjava&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/JavaWebinar/topjava.svg?branch=master)](https://travis-ci.org/JavaWebinar/topjava)
+[![Build Status](https://travis-ci.org/MetalBro/topjava.svg?branch=master)](https://travis-ci.org/MetalBro/topjava)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a16dbe50fb24f21258728b9/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a16dbe50fb24f21258728b9)
 Java Enterprise Online Project 
 ===============================

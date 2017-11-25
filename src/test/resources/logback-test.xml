@@ -11,12 +11,27 @@
         </encoder>
     </appender>
 
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>${TOPJAVA_ROOT}/log/test.log</file>
+        <param name="Append" value="false"/>  // можно без этого, в алгоритме учтено
+        <encoder>
+            <charset>UTF-8</charset>
+            <!--<pattern>%date %-5level %logger{50}.%M:%L - %msg%n</pattern>-->
+            <pattern>%date %-5level %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <logger name="org.postgresql" level="debug"/>
     <logger name="org.springframework.jdbc" level="debug"/>
     <logger name="ru.javawebinar.topjava" level="debug"/>
+    <logger name="ru.javawebinar.topjava.service" level="info"/>
 
     <root level="WARN">
         <appender-ref ref="console"/>
+    </root>
+
+    <root level="INFO">
+        <appender-ref ref="file"/>
     </root>
 
 </configuration>

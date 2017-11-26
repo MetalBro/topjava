@@ -154,7 +154,6 @@ public class MealServiceTest {
 //        } catch (IOException e){
 //            e.printStackTrace();
 //        }
-        testTimeList.stream()
-                .forEach(s -> System.out.println(s));
+        testTimeList.forEach(System.out::println);
     }
 }

@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -41,11 +43,18 @@ public class MealServiceTest {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
+    private static List<String> testTimeList;
+
     private static LocalDateTime localDateTime;
 
     @BeforeClass
     public static void setLocalDateTime(){
         localDateTime = LocalDateTime.now();
+    }
+
+    @BeforeClass
+    public static void init(){
+        testTimeList = new ArrayList<>();
     }
 
     @Rule
@@ -54,6 +63,7 @@ public class MealServiceTest {
         protected void finished(long nanos, Description description) {
             String testName = description.getMethodName();
             log.info("Test {} spent {} milliseconds", testName, TimeUnit.NANOSECONDS.toMillis(nanos));
+            testTimeList.add(testName + " - " + TimeUnit.NANOSECONDS.toMillis(nanos));
         }
     };
 
@@ -125,24 +135,26 @@ public class MealServiceTest {
 
     @AfterClass
     public static void getTimeResults(){
-        BufferedReader bufferedReader;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss,SSS");
-        try{
-            bufferedReader = new BufferedReader(new FileReader("log/test.log"));
-            while (bufferedReader.ready()){
-                String line = bufferedReader.readLine();
-                if (line.length() >= 23 && line.contains(" Test ")) {
-                    String date = line.substring(0, 23);
-                    LocalDateTime tempLDT;
-                    tempLDT = LocalDateTime.parse(date, formatter);
-                    if (tempLDT.isAfter(localDateTime)) {
-                    System.out.println(line.substring(line.indexOf("test")));
-                    }
-                }
-            }
-            bufferedReader.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+//        BufferedReader bufferedReader;
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss,SSS");
+//        try{
+//            bufferedReader = new BufferedReader(new FileReader("log/test.log"));
+//            while (bufferedReader.ready()){
+//                String line = bufferedReader.readLine();
+//                if (line.length() >= 23 && line.contains(" Test ")) {
+//                    String date = line.substring(0, 23);
+//                    LocalDateTime tempLDT;
+//                    tempLDT = LocalDateTime.parse(date, formatter);
+//                    if (tempLDT.isAfter(localDateTime)) {
+//                    System.out.println(line.substring(line.indexOf("test")));
+//                    }
+//                }
+//            }
+//            bufferedReader.close();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
+        testTimeList.stream()
+                .forEach(s -> System.out.println(s));
     }
 }

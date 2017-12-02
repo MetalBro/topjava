@@ -1,5 +1,20 @@
 package ru.javawebinar.topjava;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.Environment;
+import ru.javawebinar.topjava.model.Role;
+import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.web.meal.MealRestController;
+import ru.javawebinar.topjava.web.user.AdminRestController;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
+import java.util.Arrays;
+import java.util.List;
+
 public class Profiles {
     public static final String
             JDBC = "jdbc",
@@ -25,5 +40,11 @@ public class Profiles {
                 throw new IllegalStateException("Could not find DB driver");
             }
         }
+    }
+
+    public static String getActiveRepositoryProfile(){
+        String profile = null;
+
+        return profile;
     }
 }

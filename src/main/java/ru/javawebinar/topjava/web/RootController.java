@@ -20,6 +20,11 @@ public class RootController {
         return "index";
     }
 
+    @GetMapping("home")
+    public String home(){
+        return "redirect:/";
+    }
+
     @GetMapping("/users")
     public String users(Model model) {
         model.addAttribute("users", service.getAll());

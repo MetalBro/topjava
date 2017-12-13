@@ -46,7 +46,15 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                 user.getRoles().add(Role.valueOf(resultSet.getString("role")));
             }
         }
-        return new ArrayList<>(userMap.values());
+        List<User> userList = new ArrayList<>(userMap.values());
+        userList.sort((o1, o2) -> {
+                int result = o1.getName().compareTo(o2.getName());
+                if (result == 0){
+                    result = o1.getEmail().compareTo(o2.getEmail());
+                }
+                return result;
+        });
+        return userList;
     }
 }
 

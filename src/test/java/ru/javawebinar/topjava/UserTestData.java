@@ -4,6 +4,8 @@ import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
@@ -20,11 +22,14 @@ public class UserTestData {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "meals");
     }
 
-    public static void assertMatch(Iterable<User> actual, User... expected) {
-        assertMatch(actual, Arrays.asList(expected));
+//    public static void assertMatch(Iterable<User> actual, User... expected) {
+    public static void assertMatch(Set<User> actual, User... expected) {
+//        assertMatch(actual, Arrays.asList(expected));
+        assertMatch(actual, Arrays.stream(expected).collect(Collectors.toSet()));
     }
 
-    public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
+//    public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
+    public static void assertMatch(Set<User> actual, Set<User> expected) {
 //        assertThat(actual).usingElementComparatorIgnoringFields("registered", "roles", "meals").isEqualTo(expected);
         assertThat(actual).usingElementComparatorIgnoringFields("registered", "meals").isEqualTo(expected);
     }

@@ -16,6 +16,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,9 +50,13 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void create() throws Exception {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", 1555, false, new Date(), Collections.singleton(Role.ROLE_USER));
+        User newUser2 = new User(null, "New", "new2@gmail.com", "newPass", 1777, false, new Date(), Collections.singleton(Role.ROLE_USER));
         User created = service.create(newUser);
+        User created2 = service.create(newUser2);
         newUser.setId(created.getId());
-        assertMatch(service.getAll(), ADMIN, newUser, USER);
+        newUser2.setId(created2.getId());
+//        assertMatch(service.getAll(), ADMIN, newUser, USER);
+        assertMatch(new HashSet<>(service.getAll()), ADMIN, USER, newUser, newUser2);
     }
 
     @Test(expected = DataAccessException.class)
@@ -62,7 +67,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void delete() throws Exception {
         service.delete(USER_ID);
-        assertMatch(service.getAll(), ADMIN);
+//        assertMatch(service.getAll(), ADMIN);
+        assertMatch(new HashSet<>(service.getAll()), ADMIN);
     }
 
     @Test(expected = NotFoundException.class)
@@ -72,8 +78,10 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void get() throws Exception {
-        User user = service.get(USER_ID);
-        assertMatch(user, USER);
+//        User user = service.get(USER_ID);
+        User user = service.get(ADMIN_ID);
+//        assertMatch(user, USER);
+        assertMatch(user, ADMIN);
     }
 
     @Test(expected = NotFoundException.class)
@@ -99,7 +107,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Test
     public void getAll() throws Exception {
         List<User> all = service.getAll();
-        assertMatch(all, ADMIN, USER);
+//        assertMatch(all, ADMIN, USER);
+        assertMatch(new HashSet<>(all), ADMIN, USER);
     }
 
     @Test

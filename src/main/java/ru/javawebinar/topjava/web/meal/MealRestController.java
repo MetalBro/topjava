@@ -30,7 +30,7 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 @Controller
-public class MealRestController {
+public class MealRestController implements crudMethods {
     private static final Logger log = LoggerFactory.getLogger(MealRestController.class);
 
     private final MealService service;
@@ -40,115 +40,14 @@ public class MealRestController {
         this.service = service;
     }
 
-    @GetMapping("/meals")
-    public String getAll(Model model){
-        model.addAttribute("meals", getAll());
-        return "meals";
+    @Override
+    public Logger getLogger(){
+        return log;
     }
 
-    @GetMapping("/meals_create")
-    public String create(Model model){
-        final Meal meal = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
-        model.addAttribute("meal", meal);
-        model.addAttribute("action", "create");
-        return "mealForm";
+    @Override
+    public MealService getService(){
+        return service;
     }
 
-    @GetMapping("/meals_update")
-    public String update(Model model, HttpServletRequest request){
-        final Meal meal = get(getId(request));
-        model.addAttribute("meal", meal);
-        model.addAttribute("action", "update");
-        return "mealForm";
-    }
-
-    @GetMapping("/meals_delete")
-    public String delete(HttpServletRequest request){
-        int id = getId(request);
-        delete(id);
-        return "redirect:meals";
-    }
-
-    @PostMapping("/meals_filter")
-    public String filter(Model model, HttpServletRequest request){
-        LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
-        LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
-        LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
-        LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
-        model.addAttribute("meals", getBetween(startDate, startTime, endDate, endTime));
-        return "meals";
-    }
-
-    @PostMapping("/do_mealForm")
-    public String doForm(HttpServletRequest request) throws IOException{
-        request.setCharacterEncoding("UTF-8");
-        Meal meal = new Meal(
-                LocalDateTime.parse(request.getParameter("dateTime")),
-                request.getParameter("description"),
-                Integer.parseInt(request.getParameter("calories")));
-        if (request.getParameter("id").isEmpty()) {
-            create(meal);
-        } else {
-            update(meal, getId(request));
-        }
-        return "redirect:meals";
-    }
-
-    private int getId(HttpServletRequest request) {
-        String paramId = Objects.requireNonNull(request.getParameter("id"));
-        return Integer.parseInt(paramId);
-    }
-
-    public Meal get(int id) {
-        int userId = AuthorizedUser.id();
-        log.info("get meal {} for user {}", id, userId);
-        return service.get(id, userId);
-    }
-
-    public void delete(int id) {
-        int userId = AuthorizedUser.id();
-        log.info("delete meal {} for user {}", id, userId);
-        service.delete(id, userId);
-    }
-
-    public List<MealWithExceed> getAll() {
-        int userId = AuthorizedUser.id();
-        log.info("getAll for user {}", userId);
-        return MealsUtil.getWithExceeded(service.getAll(userId), AuthorizedUser.getCaloriesPerDay());
-    }
-
-    public Meal create(Meal meal) {
-        int userId = AuthorizedUser.id();
-        checkNew(meal);
-        log.info("create {} for user {}", meal, userId);
-        return service.create(meal, userId);
-    }
-
-    public void update(Meal meal, int id) {
-        int userId = AuthorizedUser.id();
-        assureIdConsistent(meal, id);
-        log.info("update {} for user {}", meal, userId);
-        service.update(meal, userId);
-    }
-
-    /**
-     * <ol>Filter separately
-     * <li>by date</li>
-     * <li>by time for every date</li>
-     * </ol>
-     */
-    public List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        int userId = AuthorizedUser.id();
-        log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
-
-        List<Meal> mealsDateFiltered = service.getBetweenDates(
-                startDate != null ? startDate : DateTimeUtil.MIN_DATE,
-                endDate != null ? endDate : DateTimeUtil.MAX_DATE, userId);
-
-        return MealsUtil.getFilteredWithExceeded(mealsDateFiltered,
-                startTime != null ? startTime : LocalTime.MIN,
-                endTime != null ? endTime : LocalTime.MAX,
-                AuthorizedUser.getCaloriesPerDay()
-        );
-    }
 }

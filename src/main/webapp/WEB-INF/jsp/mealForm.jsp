@@ -7,7 +7,8 @@
 <body>
 <section>
     <h3><a href="home"><spring:message code="app.home"/></a></h3>
-    <h2>${action == 'create' ? 'Create meal' : 'Edit meal'}</h2>
+    <%--<h2>${action == 'create' ? 'Create meal' : 'Edit meal'}</h2>--%>
+    <h2><spring:message code="${action == 'create' ? 'meal.create' : 'meal.edit'}"/></h2>
     <hr>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
     <form method="post" action="do_mealForm">

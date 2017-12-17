@@ -61,10 +61,11 @@ abstract public class AbstractServiceTest {
     }
 
     public boolean isProfileJDBC(){
-        String[] strings = environment.getActiveProfiles();
-        List<String> profiles = Stream.of(strings)
-                .filter(string -> string.toLowerCase().equals("jdbc"))
-                .collect(Collectors.toList());
-        return !profiles.isEmpty();
+//        String[] strings = environment.getActiveProfiles();
+//        List<String> profiles = Stream.of(strings)
+//                .filter(string -> string.toLowerCase().equals("jdbc"))
+//                .collect(Collectors.toList());
+//        return !profiles.isEmpty();
+        return environment.acceptsProfiles("jdbc");
     }
 }

@@ -55,14 +55,14 @@ public class MealRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetAll() throws Exception {
-        AuthorizedUser.setId(100001);
+//        AuthorizedUser.setId(100001);
         mockMvc.perform(get(REST_URL))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//                .andExpect(contentJson(MEAL1, MEAL2, MEAL3, MEAL4, MEAL5, MEAL6));
-                .andExpect(contentJson(ADMIN_MEAL1, ADMIN_MEAL2));
+                .andExpect(contentJson(MEAL1, MEAL2, MEAL3, MEAL4, MEAL5, MEAL6));
+//                .andExpect(contentJson(ADMIN_MEAL1, ADMIN_MEAL2));
     }
 
     @Test

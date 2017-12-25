@@ -37,6 +37,7 @@ public class AdminRestController extends AbstractUserController {
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
 
+//        ResponseEntity.created(uriOfNewResource).body(created);
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 

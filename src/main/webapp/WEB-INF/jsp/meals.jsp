@@ -13,7 +13,7 @@
     <div class="container">
     <h3><spring:message code="meal.title"/></h3>
 
-    <form method="post" action="meals/filter">
+    <form id="filterForm">
         <dl>
             <dt><spring:message code="meal.startDate"/>:</dt>
             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -33,7 +33,6 @@
         <button type="submit"><spring:message code="meal.filter"/></button>
     </form>
     <hr>
-    <%--<a href="meals/create"><spring:message code="meal.add"/></a>--%>
     <a class="btn btn-primary" onclick="add()">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         <spring:message code="common.add"/>

@@ -1,4 +1,5 @@
 var ajaxUrl = "ajax/meals/";
+var ajaxFilterUrl = "ajax/meals/filter/"
 var datatableApi;
 
 // $(document).ready(function () {

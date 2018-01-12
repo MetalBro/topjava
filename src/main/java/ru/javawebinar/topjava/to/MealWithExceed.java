@@ -1,31 +1,17 @@
 package ru.javawebinar.topjava.to;
 
-import org.hibernate.validator.constraints.Range;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class MealWithExceed extends BaseTo {
 
-    @NotNull
-    private LocalDateTime dateTime;
-//    private final LocalDateTime dateTime;
+    private final LocalDateTime dateTime;
 
-    @NotBlank
-    @Size(min = 2, max = 120)
-    private String description;
-//    private final String description;
+    private final String description;
 
-    @Range(min = 10, max = 5000)
-    private int calories;
-//    private final int calories;
+    private final int calories;
 
-    private boolean exceed;
-//    private final boolean exceed;
+    private final boolean exceed;
 
     public MealWithExceed(Integer id, LocalDateTime dateTime, String description, int calories, boolean exceed) {
         super(id);
@@ -49,22 +35,6 @@ public class MealWithExceed extends BaseTo {
 
     public boolean isExceed() {
         return exceed;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCalories(int calories) {
-        this.calories = calories;
-    }
-
-    public void setExceed(boolean exceed) {
-        this.exceed = exceed;
     }
 
     @Override

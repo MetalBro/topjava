@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.ValidationUtil;
@@ -52,9 +53,9 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal update(MealWithExceed mealWithExceed, int userId) {
-        Meal meal = get(mealWithExceed.getId(), userId);
-        return ValidationUtil.checkNotFoundWithId(repository.save(MealsUtil.updateFromTo(meal, mealWithExceed), userId), meal.getId());
+    public Meal update(MealTo mealTo, int userId) {
+        Meal meal = get(mealTo.getId(), userId);
+        return ValidationUtil.checkNotFoundWithId(repository.save(MealsUtil.updateFromTo(meal, mealTo), userId), meal.getId());
     }
 
     @Override

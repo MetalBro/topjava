@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -50,7 +51,7 @@ public class MealAjaxController extends AbstractMealController {
 //    }
 
     @PostMapping
-    public ResponseEntity<String> createOrUpdate(@Valid MealWithExceed mealWithExceed, BindingResult result) {
+    public ResponseEntity<String> createOrUpdate(@Valid MealTo mealTo, BindingResult result) {
         if (result.hasErrors()) {
             StringJoiner joiner = new StringJoiner("<br>");
             result.getFieldErrors().forEach(
@@ -63,10 +64,10 @@ public class MealAjaxController extends AbstractMealController {
                     });
             return new ResponseEntity<>(joiner.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        if (mealWithExceed.isNew()) {
-            super.create(MealsUtil.createNewFromTo(mealWithExceed));
+        if (mealTo.isNew()) {
+            super.create(MealsUtil.createNewFromTo(mealTo));
         } else {
-            super.update(mealWithExceed, mealWithExceed.getId());
+            super.update(mealTo, mealTo.getId());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

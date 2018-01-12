@@ -38,6 +38,16 @@ public class MealsUtil {
         return new MealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
     }
 
+    public static Meal createNewFromTo(MealWithExceed newMeal) {
+        return new Meal(newMeal.getDateTime(), newMeal.getDescription(), newMeal.getCalories());
+    }
+
+    public static Meal updateFromTo(Meal meal, MealWithExceed mealWithExceed) {
+        meal.setDateTime(mealWithExceed.getDateTime());
+        meal.setDescription(mealWithExceed.getDescription().toLowerCase());
+        meal.setCalories(mealWithExceed.getCalories());
+        return meal;
+    }
 /*
     public static List<MealWithExceed> getFilteredWithExceededByCycle(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
 
